@@ -1,5 +1,6 @@
 package br.com.barberbackend.empresas;
 
+import br.com.barberbackend.compartilhado.validacao.CEP;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,7 @@ public class Endereco {
   @Size(max = 2)
   private String estado;
 
-  @NotBlank private String cep;
+  @NotBlank @CEP private String cep;
 
   @Deprecated
   /**

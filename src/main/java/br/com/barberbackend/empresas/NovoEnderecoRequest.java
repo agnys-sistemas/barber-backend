@@ -1,5 +1,6 @@
 package br.com.barberbackend.empresas;
 
+import br.com.barberbackend.compartilhado.validacao.CEP;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.util.StringUtils;
@@ -11,7 +12,7 @@ public record NovoEnderecoRequest(
     @NotBlank String bairro,
     @NotBlank String cidade,
     @NotBlank @Size(max = 2) String estado,
-    @NotBlank String cep) {
+    @NotBlank @CEP String cep) {
   public Endereco toModel() {
     var endereco = new Endereco(logradouro, numero, bairro, cidade, estado, cep);
     if (StringUtils.hasText(complemento)) {
