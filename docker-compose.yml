@@ -2,22 +2,31 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:16
+    image: postgres:18
     container_name: barber-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_DB: barber
       POSTGRES_USER: barber
       POSTGRES_PASSWORD: barber
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      test: ["CMD-SHELL", "pg_isready -U barber -d barber"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
+    networks:
+      - barber-network
 
 volumes:
-  db_data:
+  postgres_data:
     driver: local
+
+networks:
+  barber-network:
+    driver: bridge
