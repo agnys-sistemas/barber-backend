@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import br.com.barberbackend.BarberBackendApplication;
+import br.com.barberbackend.TestcontainersConfiguration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,35 +12,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.postgresql.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = BarberBackendApplication.class)
-@Import(NovaEmpresaControllerIntegrationTest.TestcontainersConfig.class)
+@Import(TestcontainersConfiguration.class)
 @Transactional
 @DisplayName("Testes de Integração - NovaEmpresaController")
 class NovaEmpresaControllerIntegrationTest {
-
-  @TestConfiguration(proxyBeanMethods = false)
-  static class TestcontainersConfig {
-    @Bean
-    @ServiceConnection
-    PostgreSQLContainer postgresContainer() {
-      return new PostgreSQLContainer(DockerImageName.parse("postgres:latest"));
-    }
-  }
 
   @Autowired private MockMvc mockMvc;
 
