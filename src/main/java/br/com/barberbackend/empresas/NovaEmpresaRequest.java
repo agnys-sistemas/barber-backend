@@ -4,6 +4,7 @@ import br.com.barberbackend.compartilhado.validacao.CPFOuCNPJ;
 import br.com.barberbackend.compartilhado.validacao.CampoUnico;
 import br.com.barberbackend.compartilhado.validacao.Telefone;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -18,7 +19,7 @@ public record NovaEmpresaRequest(
         @Pattern(regexp = "(\\d{11}|\\d{14})")
         @CampoUnico(classeDominio = Empresa.class, campo = "documento")
         String documento,
-    @NotBlank @CampoUnico(classeDominio = Empresa.class, campo = "email") String email,
+    @NotBlank @Email @CampoUnico(classeDominio = Empresa.class, campo = "email") String email,
     @NotBlank @Telefone String telefone,
     @NotNull @Valid NovoEnderecoRequest enderecoRequest,
     @URL String site) {
